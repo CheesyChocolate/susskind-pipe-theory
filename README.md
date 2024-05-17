@@ -1,2 +1,4 @@
-# Python_Template
-a project template for python
+# susskind-pipe-theor
+
+Leveraging graph theory and reinforcement learning to find the input for a
+desired output in a pipe maze.
