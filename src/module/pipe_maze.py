@@ -13,6 +13,7 @@ class PipeMaze:
         self.current_state: dict = input_water
         self.nodes: dict = {}  # key: node_id, value: Node object
         self.set_nodes()
+        self.set_input_water()
 
     def print_water_amount(self) -> None:
         for node in self.nodes:
@@ -42,7 +43,11 @@ class PipeMaze:
                     self.nodes[pipe[1]].node_type = NodeTypes.JUNCTION
             self.nodes[pipe[0]].add_neighbor(self.nodes[pipe[1]])
 
-        # fill the water in the input nodes
+    def set_input_water(self) -> None:
+        """
+        Set the input water amount in the nodes
+        """
+        self.current_state = input_water
         for node in self.current_state:
             self.nodes[node].current_water_amount = self.current_state[node]
 
@@ -69,6 +74,14 @@ class PipeMaze:
             nodes_with_water = self.get_nodes_with_water()
             for node in nodes_with_water:
                 self.nodes[node].pass_water()
+
+    def reset(self) -> None:
+        """
+        Reset the water amount in the nodes
+        """
+        for node in self.nodes:
+            self.nodes[node].current_water_amount = 0
+        self.set_input_water()
 
 
 class NodeTypes(Enum):
