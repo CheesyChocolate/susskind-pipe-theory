@@ -83,6 +83,16 @@ class PipeMaze:
             self.nodes[node].current_water_amount = 0
         self.set_input_water()
 
+    def calculate_reward(self, desired_output) -> int:
+        """
+        Calculate the reward based on the difference between the current water
+        amount in the output nodes and the desired water amount
+        """
+        reward = 0
+        for output, desired in desired_output.items():
+            reward -= abs(self.nodes[output].current_water_amount - desired)
+        return reward
+
 
 class NodeTypes(Enum):
     INPUT = 1
@@ -176,3 +186,11 @@ pm.print_water_amount()
 pm.flow_water()
 print("========================")
 pm.print_water_amount()
+
+expected_output = {
+    "Output1": 15,
+    "Output2": 30,
+    "Output3": 10,
+    "Output4": 0,
+}
+print(pm.calculate_reward(expected_output))
