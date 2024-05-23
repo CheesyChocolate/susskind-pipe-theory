@@ -1,6 +1,7 @@
 # This module holds the classes and functions for pipe maze game
 
 from enum import Enum
+import random
 
 
 class PipeMaze:
@@ -8,12 +9,11 @@ class PipeMaze:
     This class holds the pipe maze object
     """
 
-    def __init__(self, pipe_map, input_water) -> None:
+    def __init__(self, pipe_map) -> None:
         self.pipe_map: set = pipe_map
-        self.current_state: dict = input_water
         self.nodes: dict = {}  # key: node_id, value: Node object
         self.set_nodes()
-        self.set_input_water()
+        self.random_step()
 
     def print_water_amount(self) -> None:
         for node in self.nodes:
@@ -43,14 +43,6 @@ class PipeMaze:
                     self.nodes[pipe[1]].node_type = NodeTypes.JUNCTION
             self.nodes[pipe[0]].add_neighbor(self.nodes[pipe[1]])
 
-    def set_input_water(self) -> None:
-        """
-        Set the input water amount in the nodes
-        """
-        self.current_state = input_water
-        for node in self.current_state:
-            self.nodes[node].current_water_amount = self.current_state[node]
-
     def get_nodes_with_water(self) -> list:
         """
         Get the nodes that have water in them
@@ -67,8 +59,6 @@ class PipeMaze:
     def flow_water(self) -> None:
         """
         Flow water until all the nodes except output nodes have no water.
-        transfer any water in current_state to the next nodes by dividing the
-        water equally
         """
         while len(self.get_nodes_with_water()) != 0:
             nodes_with_water = self.get_nodes_with_water()
@@ -81,7 +71,7 @@ class PipeMaze:
         """
         for node in self.nodes:
             self.nodes[node].current_water_amount = 0
-        self.set_input_water()
+        self.random_step()
 
     def calculate_reward(self, desired_output) -> int:
         """
@@ -92,6 +82,19 @@ class PipeMaze:
         for output, desired in desired_output.items():
             reward -= abs(self.nodes[output].current_water_amount - desired)
         return reward
+
+    def random_step(self) -> None:
+        """
+        Randomly select the water amount for the input nodes
+        """
+        for node in self.nodes:
+            if self.nodes[node].node_type == NodeTypes.INPUT:
+                self.nodes[node].current_water_amount = random.randint(0, 20)
+        # TODO: for testing purpose. Remove this hardcoded values
+        self.nodes["Input1"].current_water_amount = 10
+        self.nodes["Input2"].current_water_amount = 20
+        self.nodes["Input3"].current_water_amount = 30
+        # TODO: for testing purpose. Remove this hardcoded values
 
 
 class NodeTypes(Enum):
@@ -129,11 +132,6 @@ class Node:
             )
         self.current_water_amount = 0
 
-
-input_water: dict = {
-    "Input1": 20,
-    "Input2": 20,
-}
 
 pipe_map: set = {
     ("Input1", "Junction1"),
@@ -181,7 +179,7 @@ pipe_map: set = {
 }
 
 
-pm: PipeMaze = PipeMaze(pipe_map, input_water)
+pm: PipeMaze = PipeMaze(pipe_map)
 pm.print_water_amount()
 pm.flow_water()
 print("========================")
