@@ -75,12 +75,19 @@ class PipeMaze:
 
     def calculate_reward(self, desired_output) -> int:
         """
+        technically punishment function. :D
+
         Calculate the reward based on the difference between the current water
         amount in the output nodes and the desired water amount
         """
         reward = 0
         for output, desired in desired_output.items():
             reward -= abs(self.nodes[output].current_water_amount - desired)
+            # TODO: Implement a reward calculation that decreases the reward
+            # as the difference between the current water amount and the
+            # desired water amount increases. in a exponential way. For now,
+            # I am using a simple square of the difference.
+            # reward -= abs(self.nodes[output].current_water_amount - desired) ** 2
         return reward
 
     def random_step(self) -> None:
