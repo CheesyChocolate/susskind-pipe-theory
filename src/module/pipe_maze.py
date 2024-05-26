@@ -14,9 +14,8 @@ class PipeMaze:
         self.nodes: dict = {}  # key: node_id, value: Node object
         # the following keeps track of the output water in output nodes
         # this is updated after the water is passed through the maze
-        self.state: dict = {}  # key: node_id, value: water_amount
         self.set_nodes()
-        self.random_step() # set the initial water amount in the input nodes
+        self.random_step()  # set the initial water amount in the input nodes
 
     def print_water_amount(self) -> None:
         for node in self.nodes:
@@ -68,15 +67,20 @@ class PipeMaze:
             for node in nodes_with_water:
                 self.nodes[node].pass_water()
 
-    def reset(self) -> None:
+    def reset(self) -> dict:
         """
         Reset the water amount in the nodes
         """
+        current_state: dict = {}
         for node in self.nodes:
             self.nodes[node].current_water_amount = 0
         # NOTE: If the pipe clog/break is implemented, the following should be
-        # removed and be called occasionally.
+        # removed and be called occasionally. And then the water should be
+        # reset to the initial state.
         self.random_step()
+        for node in self.nodes:
+            current_state[node] = self.nodes[node].current_water_amount
+        return current_state
 
     def calculate_reward(self, desired_output) -> int:
         """
