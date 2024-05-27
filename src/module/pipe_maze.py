@@ -12,6 +12,9 @@ class PipeMaze:
     def __init__(self, pipe_map) -> None:
         self.pipe_map: set = pipe_map
         self.nodes: dict = {}  # key: node_id, value: Node object
+        self.input_nodes: list = []
+        self.input_water: dict = {}
+        self.output_nodes: list = []
         # the following keeps track of the output water in output nodes
         # this is updated after the water is passed through the maze
         self.set_nodes()
@@ -30,8 +33,10 @@ class PipeMaze:
                 self.nodes[pipe[0]].node_id = pipe[0]
                 if pipe[0].startswith("Input"):
                     self.nodes[pipe[0]].node_type = NodeTypes.INPUT
+                    self.input_nodes.append(pipe[0])
                 if pipe[0].startswith("Output"):
                     self.nodes[pipe[0]].node_type = NodeTypes.OUTPUT
+                    self.output_nodes.append(pipe[0])
                 if pipe[0].startswith("Junction"):
                     self.nodes[pipe[0]].node_type = NodeTypes.JUNCTION
             if pipe[1] not in self.nodes:
@@ -39,8 +44,10 @@ class PipeMaze:
                 self.nodes[pipe[1]].node_id = pipe[1]
                 if pipe[1].startswith("Input"):
                     self.nodes[pipe[1]].node_type = NodeTypes.INPUT
+                    self.input_nodes.append(pipe[1])
                 if pipe[1].startswith("Output"):
                     self.nodes[pipe[1]].node_type = NodeTypes.OUTPUT
+                    self.output_nodes.append(pipe[1])
                 if pipe[1].startswith("Junction"):
                     self.nodes[pipe[1]].node_type = NodeTypes.JUNCTION
             self.nodes[pipe[0]].add_neighbor(self.nodes[pipe[1]])
@@ -71,16 +78,11 @@ class PipeMaze:
         """
         Reset the water amount in the nodes
         """
-        current_state: dict = {}
         for node in self.nodes:
             self.nodes[node].current_water_amount = 0
-        # NOTE: If the pipe clog/break is implemented, the following should be
-        # removed and be called occasionally. And then the water should be
-        # reset to the initial state.
-        self.random_step()
-        for node in self.nodes:
-            current_state[node] = self.nodes[node].current_water_amount
-        return current_state
+        for node in self.input_nodes:
+            self.nodes[node].current_water_amount = self.input_water[node]
+        return self.input_water
 
     def calculate_reward(self, desired_output) -> int:
         """
@@ -103,13 +105,16 @@ class PipeMaze:
         """
         Randomly select the water amount for the input nodes
         """
-        for node in self.nodes:
-            if self.nodes[node].node_type == NodeTypes.INPUT:
-                self.nodes[node].current_water_amount = random.randint(0, 20)
+        for node in self.input_nodes:
+            self.nodes[node].current_water_amount = random.randint(0, 20)
+            self.input_water[node] = self.nodes[node].current_water_amount
         # TODO: for testing purpose. Remove this hardcoded values
         self.nodes["Input1"].current_water_amount = 10
+        self.input_water["Input1"] = 10
         self.nodes["Input2"].current_water_amount = 20
+        self.input_water["Input2"] = 20
         self.nodes["Input3"].current_water_amount = 30
+        self.input_water["Input3"] = 30
         # TODO: for testing purpose. Remove this hardcoded values
 
 
@@ -208,3 +213,4 @@ expected_output = {
     "Output4": 0,
 }
 print(pm.calculate_reward(expected_output))
+print(pm.reset())
