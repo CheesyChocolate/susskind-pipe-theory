@@ -69,12 +69,13 @@ class PipeMaze:
         """
         Flow water until all the nodes except output nodes have no water.
         """
+        self.reset()
         while len(self.get_nodes_with_water()) != 0:
             nodes_with_water = self.get_nodes_with_water()
             for node in nodes_with_water:
                 self.nodes[node].pass_water()
 
-    def reset(self) -> dict:
+    def reset(self) -> None:
         """
         Reset the water amount in the nodes
         """
@@ -82,7 +83,6 @@ class PipeMaze:
             self.nodes[node].current_water_amount = 0
         for node in self.input_nodes:
             self.nodes[node].current_water_amount = self.input_water[node]
-        return self.input_water
 
     def calculate_reward(self, desired_output) -> int:
         """
@@ -106,7 +106,7 @@ class PipeMaze:
         Randomly select the water amount for the input nodes
         """
         for node in self.input_nodes:
-            self.nodes[node].current_water_amount = random.randint(0, 20)
+            self.nodes[node].current_water_amount = random.randint(0, 100)
             self.input_water[node] = self.nodes[node].current_water_amount
         # TODO: for testing purpose. Remove this hardcoded values
         self.nodes["Input1"].current_water_amount = 10
@@ -116,6 +116,17 @@ class PipeMaze:
         self.nodes["Input3"].current_water_amount = 30
         self.input_water["Input3"] = 30
         # TODO: for testing purpose. Remove this hardcoded values
+        self.flow_water()
+
+    def step(self, action) -> None:
+        """
+        Take a step in the environment
+        action: dict, key: node_id, value: water amount to add
+        """
+        for input_node, water_amount in action.items():
+            self.nodes[input_node].current_water_amount += water_amount
+            self.input_water[input_node] = self.nodes[input_node].current_water_amount
+        self.flow_water()
 
 
 class NodeTypes(Enum):
@@ -214,3 +225,13 @@ expected_output = {
 }
 print(pm.calculate_reward(expected_output))
 print(pm.reset())
+print("========================")
+action = {
+    "Input1": 100,
+}
+pm.step(action)
+action = {
+    "Input2": -10,
+}
+pm.step(action)
+pm.print_water_amount()
