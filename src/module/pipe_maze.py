@@ -122,10 +122,13 @@ class PipeMaze:
         """
         Take a step in the environment
         action: dict, key: node_id, value: water amount to add
+        if the action is not valid, the water amount will not be added
         """
         for input_node, water_amount in action.items():
-            self.nodes[input_node].current_water_amount += water_amount
-            self.input_water[input_node] = self.nodes[input_node].current_water_amount
+            new_water_amount = (self.input_water[input_node] + water_amount)
+            if new_water_amount > 0 and new_water_amount < 100:
+                self.nodes[input_node].current_water_amount = new_water_amount
+                self.input_water[input_node] = new_water_amount
         self.flow_water()
 
 
@@ -231,7 +234,8 @@ action = {
 }
 pm.step(action)
 action = {
-    "Input2": -10,
+    "Input2": -6,
 }
 pm.step(action)
+print(pm.input_water)
 pm.print_water_amount()
