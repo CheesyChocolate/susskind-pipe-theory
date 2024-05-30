@@ -131,6 +131,13 @@ class PipeMaze:
                 self.input_water[input_node] = new_water_amount
         self.flow_water()
 
+    def get_state(self):
+        # State is represented as a tuple of water amounts in input nodes
+        # Ensure the state is ordered by sorting the keys of input_water
+        return tuple(
+            self.input_water[node] for node in sorted(self.input_nodes)
+        )
+
 
 class NodeTypes(Enum):
     INPUT = 1
