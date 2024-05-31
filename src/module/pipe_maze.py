@@ -15,6 +15,7 @@ class PipeMaze:
         self.input_nodes: list = []
         self.input_water: dict = {}
         self.output_nodes: list = []
+        self.expected_output: dict = {}
         # the following keeps track of the output water in output nodes
         # this is updated after the water is passed through the maze
         self.set_nodes()
@@ -84,7 +85,7 @@ class PipeMaze:
         for node in self.input_nodes:
             self.nodes[node].current_water_amount = self.input_water[node]
 
-    def calculate_reward(self, desired_output) -> int:
+    def calculate_reward(self) -> int:
         """
         technically punishment function. :D
 
@@ -92,7 +93,7 @@ class PipeMaze:
         amount in the output nodes and the desired water amount
         """
         reward = 0
-        for output, desired in desired_output.items():
+        for output, desired in self.expected_output.items():
             reward -= abs(self.nodes[output].current_water_amount - desired)
             # TODO: Implement a reward calculation that decreases the reward
             # as the difference between the current water amount and the
@@ -125,7 +126,7 @@ class PipeMaze:
         if the action is not valid, the water amount will not be added
         """
         for input_node, water_amount in action.items():
-            new_water_amount = (self.input_water[input_node] + water_amount)
+            new_water_amount = self.input_water[input_node] + water_amount
             if new_water_amount > 0 and new_water_amount < 100:
                 self.nodes[input_node].current_water_amount = new_water_amount
                 self.input_water[input_node] = new_water_amount
