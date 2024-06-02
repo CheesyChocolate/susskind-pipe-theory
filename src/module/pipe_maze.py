@@ -139,6 +139,40 @@ class PipeMaze:
         """
         return [self.input_water[node] for node in sorted(self.input_nodes)]
 
+    # def get_state_space(self) -> list:
+    # Since the state space is too large, I am not implementing this method
+    # instead, the state space will be added to q_table for the states that
+    # are not in the q_table
+        """
+        Get the state space
+        state space is a list of all possible states in the environment
+
+        note that a state is represented as a list.
+
+        the number of states is (100/5) ^ number of input nodes
+        this is because the water amount in the input nodes can be 0 to 100
+        and the water amount can be increased or decreased by 5
+        for each input node
+        """
+
+    def get_action_space(self) -> list:
+        """
+        Get the action space
+        action space is a list of all possible actions in the environment
+        an action is increasing or decreasing the water amount in the input
+        nodes by 5, this change is represented by 5 and -5 respectively.
+        Only one input node can be changed at a time.
+
+        note that an action is represented as a dict.
+        """
+        action_space: list = []
+        change = [-5, 5]
+        for node in self.input_nodes:
+            for c in change:
+                action = {node: c}
+                action_space.append(action)
+        return action_space
+
 
 class NodeTypes(Enum):
     INPUT = 1
