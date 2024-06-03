@@ -132,14 +132,15 @@ class PipeMaze:
                 self.input_water[input_node] = new_water_amount
         self.flow_water()
 
-    def get_state(self) -> list:
+    def get_state(self) -> str:
         """
         State is represented as a list of water amounts in input nodes
         Ensure the state is ordered by sorting the keys of input_water
         """
-        return [self.input_water[node] for node in sorted(self.input_nodes)]
+        # return np.array([self.input_water[node] for node in sorted(self.input_nodes)])
+        return ",".join([str(self.input_water[node]) for node in sorted(self.input_nodes)])
 
-    # def get_state_space(self) -> list:
+    # def get_state_space(self) -> tuple:
     # Since the state space is too large, I am not implementing this method
     # instead, the state space will be added to q_table for the states that
     # are not in the q_table
