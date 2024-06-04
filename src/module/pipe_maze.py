@@ -156,7 +156,10 @@ class PipeMaze:
         for each input node
         """
 
-    def get_action_space(self) -> list:
+    def get_state_space_length(self) -> int:
+        return (100 // 5) ** len(self.input_nodes)
+
+    def get_action_space(self) -> tuple:
         """
         Get the action space
         action space is a list of all possible actions in the environment
@@ -166,11 +169,12 @@ class PipeMaze:
 
         note that an action is represented as a dict.
         """
-        action_space: list = []
+        action_space: tuple = []
         change = [-5, 5]
         for node in self.input_nodes:
             for c in change:
-                action = {node: c}
+                action = {}
+                action[node] = c
                 action_space.append(action)
         return action_space
 
@@ -269,7 +273,7 @@ expected_output = {
     "Output3": 10,
     "Output4": 0,
 }
-print(pm.calculate_reward(expected_output))
+print(pm.calculate_reward())
 print(pm.reset())
 print("========================")
 action = {
@@ -282,3 +286,5 @@ action = {
 pm.step(action)
 print(pm.input_water)
 pm.print_water_amount()
+print("========================")
+print(pm.get_state())
