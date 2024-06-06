@@ -6,11 +6,13 @@ from pipe_maze import PipeMaze
 
 
 class QLearningAgent:
-    def __init__(self,
-                 env: PipeMaze,
-                 alpha: float = 0.1,
-                 gamma: float = 0.9,
-                 epsilon: float = 0.1) -> None:
+    def __init__(
+        self,
+        env: PipeMaze,
+        alpha: float = 0.1,
+        gamma: float = 0.9,
+        epsilon: float = 0.1,
+    ) -> None:
         self.env: PipeMaze = env
         self.alpha: float = alpha
         self.gamma: float = gamma
@@ -46,15 +48,13 @@ class QLearningAgent:
             (self.env.get_state_space_length(), len(self.env.get_action_space()) + 1)
         )
 
-        def update_q_table(self,
-                           state: tuple,
-                           action: dict,
-                           reward: int,
-                           next_state) -> None:
+        def update_q_table(
+            self, state: tuple, action: dict, reward: int, next_state
+        ) -> None:
             """
-               Update the q_table using the Q-learning algorithm
+            Update the q_table using the Q-learning algorithm
 
-               If the state or next_state is not in the q_table, add them to the
-               q_table
-               """
+            If the state or next_state is not in the q_table, add them to the
+            q_table
+            """
             pass
