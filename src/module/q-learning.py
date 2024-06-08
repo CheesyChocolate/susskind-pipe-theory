@@ -94,3 +94,13 @@ class QLearningAgent:
             reward + self.gamma * next_max_q_value - current_q_value
         )
         self.q_table[state_index][action_index] = new_q_value
+
+    def get_q_value(self, state: str, action: dict) -> float:
+        """
+        Get the q_value for the given state and action
+        """
+        if state not in self.index_of_state_in_q_table:
+            return 0
+        state_index = self.index_of_state_in_q_table.index(state)
+        action_index = self.env.get_action_space().index(action)
+        return self.q_table[state_index][action_index]
