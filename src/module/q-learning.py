@@ -104,3 +104,13 @@ class QLearningAgent:
         state_index = self.index_of_state_in_q_table.index(state)
         action_index = self.env.get_action_space().index(action)
         return self.q_table[state_index][action_index]
+
+    def get_best_action(self, state: str) -> dict:
+        """
+        Get the best action for the given state
+        """
+        if state not in self.index_of_state_in_q_table:
+            return None
+        state_index = self.index_of_state_in_q_table.index(state)
+        action_index = np.argmax(self.q_table[state_index])
+        return self.env.get_action_space()[action_index]
