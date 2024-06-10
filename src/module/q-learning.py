@@ -68,6 +68,10 @@ class QLearningAgent:
         # print(self.q_table)
         # self.update_q_table(state, action, reward, next_state)
         # print(self.q_table)
+        # print(self.get_q_value(state, action))
+        # print(self.get_best_action(state))
+        self.train(18000)
+        print(self.q_table)
         # TODO: Test
 
     def update_q_table(
@@ -110,7 +114,25 @@ class QLearningAgent:
         Get the best action for the given state
         """
         if state not in self.index_of_state_in_q_table:
-            return None
+            return random.choice(self.env.get_action_space())
         state_index = self.index_of_state_in_q_table.index(state)
         action_index = np.argmax(self.q_table[state_index])
         return self.env.get_action_space()[action_index]
+
+    def train(self, episodes: int) -> None:
+        """
+        Train the agent using the Q-learning algorithm
+        """
+        for _ in range(episodes):
+            self.env.reset()
+            state = self.env.get_state()
+            for _ in range(20):  # episode ends after 20 steps
+                if np.random.uniform(0, 1) < self.epsilon:
+                    action = random.choice(self.env.get_action_space())
+                else:
+                    action = self.get_best_action(state)
+                self.env.step(action)
+                next_state = self.env.get_state()
+                reward = self.env.calculate_reward()
+                self.update_q_table(state, action, reward, next_state)
+                state = next_state
