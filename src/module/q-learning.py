@@ -136,3 +136,13 @@ class QLearningAgent:
                 reward = self.env.calculate_reward()
                 self.update_q_table(state, action, reward, next_state)
                 state = next_state
+
+    def get_solution_policy(self) -> dict:
+        """
+        Get the solution policy
+        """
+        policy = {}
+        for state in self.index_of_state_in_q_table:
+            action = self.get_best_action(state)
+            policy[state] = action
+        return policy
