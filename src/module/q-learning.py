@@ -146,3 +146,19 @@ class QLearningAgent:
             action = self.get_best_action(state)
             policy[state] = action
         return policy
+
+    def run(self) -> None:
+        """
+        Run the agent to find the optimal policy
+        """
+        self.env.reset()
+        start_state = self.env.get_state()
+        for _ in range(20000):
+            action = self.get_best_action(start_state)
+            self.env.step(action)
+            next_state = self.env.get_state()
+            reward = self.env.calculate_reward()
+            self.update_q_table(start_state, action, reward, next_state)
+            start_state = next_state
+            if reward > -10:
+                break
