@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from pipe_maze import PipeMaze
+from .pipe_maze import PipeMaze
 
 
 class QLearningAgent:
