@@ -51,30 +51,6 @@ class QLearningAgent:
         )
         self.index_of_state_in_q_table: list = []
 
-        # TODO: Test
-        # self.q_table[0][0] = '10,11,12'
-        # self.q_table[7999][0] = '11,12,13'
-        # print(self.env.get_action_space())
-        # action = {
-        #     "Input1": -5,
-        # }
-        # print(self.env.get_action_space().index(action))
-
-        # state = '10,20,30'
-        # action = {
-        #     "Input1": 5,
-        # }
-        # reward = 10
-        # next_state = '15,20,30'
-        # print(self.q_table)
-        # self.update_q_table(state, action, reward, next_state)
-        # print(self.q_table)
-        # print(self.get_q_value(state, action))
-        # print(self.get_best_action(state))
-        self.train(18000)
-        print(self.q_table)
-        # TODO: Test
-
     def update_q_table(
         self, state: str, action: dict, reward: int, next_state: str
     ) -> None:
