@@ -1,0 +1,14 @@
+input water: {'Input3': 30, 'Input1': 10, 'Input2': 15}
+====================================
+output water:
+Input3: 0
+Output3: 10
+Output2: 30
+Input1: 0
+Input2: 0
+Output4: 0
+Output1: 14
+====================================
+expected_output: {'Output1': 15, 'Output2': 30, 'Output3': 10, 'Output4': 0}
+====================================
+reward: -1
