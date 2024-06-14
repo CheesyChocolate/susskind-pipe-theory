@@ -1,6 +1,7 @@
 # This module holds the classes and functions for Q-learning algorithm
 
 import numpy as np
+import random
 
 from .pipe_maze import PipeMaze
 
