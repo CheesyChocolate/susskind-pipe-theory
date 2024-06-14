@@ -31,15 +31,27 @@ def main():
     q_learning_agent: QLearningAgent = QLearningAgent(pm)
     q_learning_agent.train()
 
-    q_learning_agent.run()
-    print(f"input water: {pm.input_water}")
+    pm.reset()
+    print("initial input water:")
+    pm.print_water_amount()
     print("====================================")
-    print("output water:")
+    print("initial output water:")
+    pm.flow_water()
+    pm.print_water_amount()
+    pm.reset()
+    print("====================================")
+    q_learning_agent.run()
+    print("input water after q-learning:")
+    print(q_learning_agent.input_after_q_learning)
+    print("====================================")
+    print("output water after q-learning:")
     pm.print_water_amount()
     print("====================================")
     print(f"expected_output: {expected_output}")
     print("====================================")
     print(f"reward: {pm.calculate_reward()}")
+    print("====================================")
+
 
 
 if __name__ == "__main__":

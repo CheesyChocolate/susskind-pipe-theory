@@ -18,6 +18,7 @@ class QLearningAgent:
         self.alpha: float = alpha
         self.gamma: float = gamma
         self.epsilon: float = epsilon
+        self.input_after_q_learning: str = ""
         """
         two dimensional array, first dimension is the state space and the
         second dimension is the action space
@@ -139,3 +140,4 @@ class QLearningAgent:
             start_state = next_state
             if reward > -10:
                 break
+        self.input_after_q_learning = start_state

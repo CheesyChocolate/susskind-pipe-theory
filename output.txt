@@ -1,14 +1,34 @@
-input water: {'Input3': 30, 'Input1': 10, 'Input2': 15}
+initial input water:
+Output1: 0
+Input1: 10
+Input2: 14
+Input3: 30
+Output2: 0
+Output3: 0
+Output4: 0
 ====================================
-output water:
-Input3: 0
-Output3: 10
-Output2: 30
+initial output water:
+Output1: 13
 Input1: 0
 Input2: 0
+Input3: 0
+Output2: 28
+Output3: 10
 Output4: 0
-Output1: 14
+====================================
+input water after q-learning:
+10,19,30
+====================================
+output water after q-learning:
+Output1: 15
+Input1: 0
+Input2: 0
+Input3: 0
+Output2: 32
+Output3: 10
+Output4: 0
 ====================================
 expected_output: {'Output1': 15, 'Output2': 30, 'Output3': 10, 'Output4': 0}
 ====================================
-reward: -1
+reward: -2
+====================================
