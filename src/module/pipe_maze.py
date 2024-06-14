@@ -109,14 +109,6 @@ class PipeMaze:
         for node in self.input_nodes:
             self.nodes[node].current_water_amount = random.randint(0, 100)
             self.input_water[node] = self.nodes[node].current_water_amount
-        # TODO: for testing purpose. Remove this hardcoded values
-        self.nodes["Input1"].current_water_amount = 10
-        self.input_water["Input1"] = 10
-        self.nodes["Input2"].current_water_amount = 20
-        self.input_water["Input2"] = 20
-        self.nodes["Input3"].current_water_amount = 30
-        self.input_water["Input3"] = 30
-        # TODO: for testing purpose. Remove this hardcoded values
         self.flow_water()
 
     def step(self, action) -> None:
