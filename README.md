@@ -3,6 +3,32 @@
 Leveraging graph theory and reinforcement learning to find the input for a
 desired output in a pipe maze.
 
+## How to run
+
+### create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+### activate the virtual environment
+
+```bash
+source venv/bin/activate
+```
+
+### install the dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### run the project
+
+```bash
+python src/core.py
+```
+
 ## Problem Statement
 
 <!-- TODO: original statement -->
