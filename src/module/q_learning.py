@@ -120,7 +120,7 @@ class QLearningAgent:
         action_index = np.argmax(self.q_table[state_index])
         return self.env.get_action_space()[action_index]
 
-    def train(self, episodes: int) -> None:
+    def train(self, episodes: int = 5000) -> None:
         """
         Train the agent using the Q-learning algorithm
         """
