@@ -3,6 +3,10 @@
 Leveraging graph theory and reinforcement learning to find the input for a
 desired output in a pipe maze.
 
+**Note**: This project is solved using q-learning algorithm. The proper way
+to solve this problem is to use a DQN algorithm. But that would be for another
+time.
+
 ## How to run
 
 ### create a virtual environment
