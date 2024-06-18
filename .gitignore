@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 trash/
+*.mp4
